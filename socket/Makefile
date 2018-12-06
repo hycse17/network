@@ -7,20 +7,17 @@ SERVER = ./bin/server/
 CLIENT = ./bin/client/
 
 # Compile server.c
-server: server.o
-	$(CC) -o $(SERVER)server $(SRC)server.o
-server.o: server.c
-	$(CC) -c $(SRC)server.o $(SRC)server.c
+server: $(SRC)server.c
+	$(CC) -o $(SERVER)server $(SRC)server.c
 
 # Compile client.c
-client: client.o
-	$(CC) -o $(CLIENT)client $(SRC)client.o
-client.o: client.c
-	$(CC) -c $(SRC)client.c $(SRC)client.c
+client: $(SRC)client.c
+	$(CC) -o $(CLIENT)client $(SRC)client.c
+
+all: server client
 
 # Clean
-OBJS := $(wildcard src/*.o)
 clean:
-	rm $(OBJS)
 	rm $(SERVER)server
+	rm $(SERVER)get_file.txt
 	rm $(CLIENT)client

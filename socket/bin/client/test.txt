@@ -1,0 +1,7 @@
+Hello
+My name is hyungsoo jung
+Nice to meet you
+I teach DB and OS in Hanyang University
+I like coding
+See you again
+Bye

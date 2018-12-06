@@ -5,9 +5,10 @@
  * argv[1] : 서버의 포트번호
 */
 
-#include "sys/types.h"
-#include "sys/socket.h"
-#include "netinet/in.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -15,7 +16,6 @@
 #include <assert.h>
 #include <string.h>
 
-#define EXIT_FAILURE -1
 #define MAX_BUF_SIZE 128
 
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv)
 
     // 서버의 소켓을 생성하는 부분
     // AF_INET: IPv4 인터넷 프로토콜을 사용, SOCKET_STREAM: TCP/IP 프로토콜 사용 
-    server_fd = socket(AF_INET, SOCKET_STREAM, 0);
+    server_fd = socket(AF_INET, SOCK_STREAM, 0);
     assert(server_fd != -1);
 
     // 소켓을 초기화하고 IP address와 포트번호 지정
@@ -40,7 +40,7 @@ int main(int argc, char** argv)
     server_addr.sin_family = AF_INET; // IPv4 인터넷 프로토콜 사용
     server_addr.sin_port = htons(atoi(argv[1])); // 포트번호 할당
     server_addr.sin_addr.s_addr = htonl(INADDR_ANY); // IP주소 할당
-    if(bind(server_fd, (struct sockaddr*)%server_addr, sizeof(server_addr)) < 0) {
+    if(bind(server_fd, (struct sockaddr*)&server_addr, sizeof(server_addr)) < 0) {
         printf("binding failed.\n");
         exit(EXIT_FAILURE);
     }
@@ -48,13 +48,13 @@ int main(int argc, char** argv)
             ntohs(server_addr.sin_port));
 
     // 클라이언트 접속을 기다림
-    if(listen(server_fd, SOMAXCONN) == SOCKET_ERROR) {
+    if(listen(server_fd, SOMAXCONN) < 0) {
         printf("listen failed.\n");
         exit(EXIT_FAILURE);
     }
 
     while(1) {
-        prinf("Listening...\n");
+        printf("Listening...\n");
         
         // 접속한 클라이언트와 통신할 수 있도록 새로운 소켓을 생성
         int client_addr_size = sizeof(client_addr);

@@ -6,9 +6,10 @@
  * argv[2] : 서버에 전송할 파일의 이름
 */
 
-#include "sys/types.h"
-#include "sys/socket.h"
-#include "netinet/in.h"
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -16,7 +17,6 @@
 #include <assert.h>
 #include <string.h>
 
-#define EXIT_FAILURE -1
 #define MAX_BUF_SIZE 128
 
 int main(int argc, char** argv)
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     }
 
     // 클라이언트의 소켓을 생성하는 부분
-    client_fd = socket(AF_INET, SOCKET_STREAM, 0);
+    client_fd = socket(AF_INET, SOCK_STREAM, 0);
     assert(client_fd != -1);
 
     // 서버의 IP address와 port번호를 지정하고, 연결시도
